@@ -139,7 +139,7 @@ func (g G2Affine) ScaleByCofactor() *G2Projective {
 
 // Equals checks if two affine points are equal.
 func (g G2Affine) Equals(other *G2Affine) bool {
-	return (g.infinity == other.infinity) || (g.x.Equals(other.x) && g.y.Equals(other.y))
+	return (g.infinity == other.infinity && g.infinity == true) || (g.x.Equals(other.x) && g.y.Equals(other.y))
 }
 
 // GetG2PointFromX attempts to reconstruct an affine point given
@@ -177,26 +177,25 @@ func (g *G2Affine) SerializeBytes() [192]byte {
 	yC0Bytes := g.y.c0.ToRepr().Bytes()
 	yC1Bytes := g.y.c1.ToRepr().Bytes()
 
-	copy(out[0:48], xC0Bytes[:])
-	copy(out[48:96], xC1Bytes[:])
-	copy(out[96:144], yC0Bytes[:])
-	copy(out[144:192], yC1Bytes[:])
+	copy(out[0:48], xC1Bytes[:])
+	copy(out[48:96], xC0Bytes[:])
+	copy(out[96:144], yC1Bytes[:])
+	copy(out[144:192], yC0Bytes[:])
 
 	return out
 }
 
 // SetRawBytes sets the coords given the serialized bytes.
 func (g *G2Affine) SetRawBytes(uncompressed [192]byte) error {
-
 	var xC0Bytes [48]byte
 	var xC1Bytes [48]byte
 	var yC0Bytes [48]byte
 	var yC1Bytes [48]byte
 
-	copy(xC0Bytes[:], uncompressed[0:48])
-	copy(xC1Bytes[:], uncompressed[48:96])
-	copy(yC0Bytes[:], uncompressed[96:144])
-	copy(yC1Bytes[:], uncompressed[144:192])
+	copy(xC1Bytes[:], uncompressed[0:48])
+	copy(xC0Bytes[:], uncompressed[48:96])
+	copy(yC1Bytes[:], uncompressed[96:144])
+	copy(yC0Bytes[:], uncompressed[144:192])
 
 	xc0FQ := FQReprToFQ(FQReprFromBytes(xC0Bytes))
 	xc1FQ := FQReprToFQ(FQReprFromBytes(xC1Bytes))
