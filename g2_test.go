@@ -89,3 +89,24 @@ func BenchmarkG2AddAssignMixed(b *testing.B) {
 		count = (count + 1) % g1MulAssignSamples
 	}
 }
+
+func TestG2Affine_SerializeBytes(t *testing.T) {
+	r := NewXORShift(1)
+
+	x, _ := bls.RandFQ2(r)
+	y, _ := bls.RandFQ2(r)
+
+	g2 := bls.NewG2Affine(x, y)
+
+	bytes := g2.SerializeBytes()
+
+	g2Other := new(bls.G2Affine)
+	err := g2Other.SetRawBytes(bytes)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !g2.Equals(g2Other) {
+		t.Errorf("G2 should be equal after deserialization")
+	}
+}
