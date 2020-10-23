@@ -102,6 +102,11 @@ type SecretKey struct {
 	f *bls.FR
 }
 
+// NewSecretKeyFromFR creates a new secret key from FR element.
+func NewSecretKeyFromFR(fr *bls.FR) *SecretKey {
+	return &SecretKey{fr}
+}
+
 // GetFRElement gets the underlying FR element.
 func (s SecretKey) GetFRElement() *bls.FR {
 	return s.f
