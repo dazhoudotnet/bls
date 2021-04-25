@@ -1,4 +1,4 @@
-module github.com/phoreproject/bls
+module github.com/dazhoudotnet/bls
 
 require (
 	github.com/google/pprof v0.0.0-20190309163659-77426154d546 // indirect
@@ -12,4 +12,4 @@ require (
 	golang.org/x/tools v0.0.0-20190325223049-1d95b17f1b04 // indirect
 )
 
-go 1.13
+go 1.16
